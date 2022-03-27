@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.pictgram.entity.User;
 import com.example.pictgram.entity.User.Authority;
@@ -22,27 +23,26 @@ public class UsersController {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private UserRepository repository;
-	
+
 	@GetMapping(path = "/users/new")
 	public String newUser(Model model) {
 		model.addAttribute("form", new UserForm());
 		return "users/new";
 	}
-	
+
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String create(@Validated @ModelAttribute("form") UserForm form, 
-			BindingResult result, Model model) {
+	public String create(@Validated @ModelAttribute("form") UserForm form, BindingResult result, Model model,
+			RedirectAttributes redirAttrs) {
 		String name = form.getName();
 		String email = form.getEmail();
 		String password = form.getPassword();
 		String passwordConfirmation = form.getPasswordConfirmation();
-		
+
 		if (repository.findByUsername(email) != null) {
-			FieldError fieldError = new FieldError(result.getObjectName(), 
-					"email", "その E メールはすでに使用されています。");
+			FieldError fieldError = new FieldError(result.getObjectName(), "email", "その E メールはすでに使用されています。");
 			result.addError(fieldError);
 		}
 		if (result.hasErrors()) {
@@ -51,15 +51,14 @@ public class UsersController {
 			model.addAttribute("message", "ユーザー登録に失敗しました。");
 			return "user/new";
 		}
-		
-		User entity = new User(email, name, passwordEncoder.encode(password), 
-				Authority.ROLE_USER);
+
+		User entity = new User(email, name, passwordEncoder.encode(password), Authority.ROLE_USER);
 		repository.saveAndFlush(entity);
-		
+
 		model.addAttribute("hasMessage", true);
 		model.addAttribute("class", "alert-info");
 		model.addAttribute("message", "ユーザー登録が完了しました。");
-		
+
 		return "layouts/complete";
 	}
 }
