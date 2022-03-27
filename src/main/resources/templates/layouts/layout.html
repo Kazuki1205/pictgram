@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div th:if="${hasMessage}" class="alert alert-dismissible fade show" th:classappend="${class}" role='alert'>
-		<button type="button" class="btn-close" data-bs^dismiss="alert" aria-label="Close"></button>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
 		<span th:text="${message}"></span>
 	</div>
 	<nav layout:replace="~{layouts/common :: nav}"></nav>
