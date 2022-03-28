@@ -55,7 +55,7 @@ public class UsersController {
 			model.addAttribute("hasMessage", true);
 			model.addAttribute("class", "alert-danger");
 			model.addAttribute("message", messageSource.getMessage("users.create.flash.1", new String[] {}, locale));
-			return "user/new";
+			return "users/new";
 		}
 
 		User entity = new User(email, name, passwordEncoder.encode(password), Authority.ROLE_USER);
