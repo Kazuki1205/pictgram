@@ -14,9 +14,9 @@
 						<div class="mb-3">
 							<label class="form-label text-black" for="comment_description" th:text="#{comments.new.description}">Description</label>
 							<textarea class="form-control" th:field="*{description}" rows="10" th:errorclass="error-field"></textarea>
-							<p th:if="${#fields.hasErrors('description')}" class="error-message" th:errors="#{description}"></p>
+							<p th:if="${#fields.hasErrors('description')}" class="error-message" th:errors="*{description}"></p>
 						</div>
-						<input type="submit" value="“Še" class="btn w-100 btn-outline-dark" th:value="#{comments.new.submit}" />
+						<input type="submit" value="æŠ•ç¨¿" class="btn w-100 btn-outline-dark" th:value="#{comments.new.submit}" />
 					</form>
 				</div>
 			</div>
